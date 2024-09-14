@@ -6,15 +6,9 @@ import { TaskType } from "./Todolist";
 import { AdItemForm } from "./input/AdItemForm";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Cutton } from "./input/AdItemForm";
+import { Button } from "@mui/material";
 
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2", // основной цвет
-    },
-  },
-});
 
 
 
@@ -133,12 +127,12 @@ function App() {
 
   return (
     
-<ThemeProvider theme={theme}>
+
       <div className="App">
         <div className="todo-container">
 
       
-      <Cutton/>
+      <Button></Button>
     
           <AdItemForm addTask={addTodoList} />
           {todolists.map((tl) => {
@@ -170,7 +164,7 @@ function App() {
           })}
         </div>
       </div>
-      </ThemeProvider>
+      
   );
 }
 
