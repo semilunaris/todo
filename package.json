@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "@types/uuid": "^10.0.0"
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.0",
+    "@mui/styled-engine-sc": "^6.1.0",
+    "@types/uuid": "^10.0.0",
+    "styled-components": "^6.1.13"
   }
 }

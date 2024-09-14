@@ -132,3 +132,27 @@
   background-color: #007bff;
   color: white;
 }
+
+
+.error {
+  border: 1px solid #c82333;
+}
+  
+
+.task-input.error {
+
+	font:Bold;
+	color:#000000;
+	border-width: thin;
+	border-radius: 5px;
+	border-color:red;
+}
+.error-message {
+  color: #c82333;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+.active-filter {
+  background-color: aquamarine;
+}
