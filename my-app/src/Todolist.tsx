@@ -6,6 +6,9 @@ import { error } from "console";
 import { AdItemForm } from "./input/AdItemForm";
 import { title } from "process";
 import { EditlbleSpan } from "./span/Span";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Button } from "@mui/material";
 
 export type TaskType = {
   id: string;
@@ -33,34 +36,33 @@ type TitlePropsType = {
   ) => void;
   filter: filterValueType;
   removeTodoList: (todolistid: string) => void;
-  
 };
 
 export function TodoList(props: TitlePropsType) {
- 
- 
   const onAllFilter = () => props.changeFilter("all", props.id);
   const onActiveFilter = () => props.changeFilter("active", props.id);
   const onComletedFilter = () => props.changeFilter("completed", props.id);
   const removeTodolist = () => {
     props.removeTodoList(props.id);
   };
-   
+
   const changeTodoListTitle = (NewTitle: string) => {
     props.changeTodoListTitle(props.id, NewTitle);
   };
-  const addTask  = (title: string) => {
-    props.addTask(title, props.id)
-  }
+  const addTask = (title: string) => {
+    props.addTask(title, props.id);
+  };
 
   return (
     <div className="todo-list">
       <h3 className="todo-list-title">
-        <EditlbleSpan title={props.title} onChange={changeTodoListTitle}/>
-        
-        <button onClick={removeTodolist}>x</button>
+        <EditlbleSpan title={props.title} onChange={changeTodoListTitle} />
+        <IconButton aria-label="delete" onClick={removeTodolist} >
+                <DeleteIcon />
+              </IconButton>
+     
       </h3>
-      <AdItemForm  addTask={addTask}/>
+      <AdItemForm addTask={addTask} />
       <ul className="task-list">
         {props.task.map((t) => {
           const onRemoveHendler = () => {
@@ -69,7 +71,7 @@ export function TodoList(props: TitlePropsType) {
           const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
             props.changeTaskStatus(t.id, e.currentTarget.checked, props.id);
           };
-       
+
           const onChangeTitleHandler = (newValue: string) => {
             props.changeTaskTitle(t.id, newValue, props.id);
           };
@@ -84,50 +86,44 @@ export function TodoList(props: TitlePropsType) {
                 onChange={onChangeCheckHandler}
                 checked={t.isDone}
               />
-              <EditlbleSpan title ={t.title} onChange={onChangeTitleHandler}/>
-              <button className="task-remove-button" onClick={onRemoveHendler}>
-                x
-              </button>
+              <EditlbleSpan title={t.title} onChange={onChangeTitleHandler} />
+              <IconButton aria-label="delete" onClick={onRemoveHendler}>
+                <DeleteIcon />
+              </IconButton>
             </li>
           );
         })}
       </ul>
       <div className="filter-buttons">
-        <button
+        <Button
           onClick={onAllFilter}
-          className={
-            props.filter === "all"
-              ? "filter-button active-filter"
-              : "filter-button"
-          }
+          variant={ props.filter === "all"
+        ? "contained"
+        : "text"}
         >
           All
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={onComletedFilter}
-          className={
-            props.filter === "completed"
-              ? "filter-button active-filter"
-              : "filter-button"
-          }
+          color={"primary"}
+          variant={ props.filter === "completed"
+        ? "contained"
+        : "text"}
         >
           Completed
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={onActiveFilter}
-          className={
-            props.filter === "active"
-              ? "filter-button active-filter"
-              : "filter-button"
-          }
+          color={"secondary"}
+        variant={ props.filter === "active"
+        ? "contained"
+        : "text"}
         >
           Active
-        </button>
+        </Button>
       </div>
     </div>
   );
 }
 
 // компонента span
-
-

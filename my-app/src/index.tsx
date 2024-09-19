@@ -8,13 +8,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2", // основной цвет
-    },
-  },
-});
+const theme = createTheme()
 
 root.render(
 <ThemeProvider theme={theme}>

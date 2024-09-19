@@ -1,16 +1,15 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import "../TodoList.css"; // Импорт стилей
 import { error } from "console";
-import Button from '@mui/material/Button'
+import IconButton from '@mui/material/Button'
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { TextField } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { green } from '@mui/material/colors';
+import Stack from '@mui/material/Stack';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2", // основной цвет
-    },
-  },
-});
+
+
 
 
 
@@ -53,24 +52,24 @@ const theme = createTheme({
     };
    
   return  <div>
-      <input
+      <TextField
+         size="small"
+        variant={"outlined"} 
         value={newTaskTitle}
         onChange={onNewTitleHendlerChabger}
         onKeyUp={onKeyPressHendler}
         type="text"
-        placeholder="Добавить задачу..."
-        className={error ? "task-input error" : "task-input"}
-      ></input>
-      <button onClick={addTask}>
-        +
-      </button>
-      <ThemeProvider theme={theme}>
-      <Cutton/>
-    </ThemeProvider>
-      {error && <div className="error-message"> {error} </div>}
+        label = {'Type value'}
+        error={!!error}
+        helperText={error}
+      ></TextField>
+       
+       <AddCircleIcon
+  onClick={addTask}
+  sx={{ color: green[500], cursor: 'pointer' }}
+/>
+
+     
+
     </div>;
-  }
-  
- export const Cutton = () =>{
-    return <Button>fdsfsd</Button>
   }
