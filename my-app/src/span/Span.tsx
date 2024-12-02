@@ -1,5 +1,6 @@
-import react from "react";
+import react, { useCallback } from "react";
 import { TextField } from "@mui/material";
+import React from "react";
 
 
 type EditTaskSpanType = {
@@ -7,7 +8,7 @@ type EditTaskSpanType = {
   onChange: (value: string)=>void
 };
 
-export function EditlbleSpan(props: EditTaskSpanType) {
+export const EditlbleSpan = React.memo((props: EditTaskSpanType) => {
   let [editMode, setEditMode] = react.useState(false);
   let [title, setTitle] = react.useState("");
 
@@ -34,4 +35,6 @@ export function EditlbleSpan(props: EditTaskSpanType) {
   ) : (
     <span onDoubleClick={activateEditeMode}>{props.title}</span>
   );
-}
+})
+
+

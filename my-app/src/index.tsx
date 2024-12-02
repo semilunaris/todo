@@ -2,8 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import AppWithReducer from './AppWithReducer';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import AppWithRedux from './AppWithRedux';
+import { Provider } from 'react-redux';
+import { store } from './state/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +17,11 @@ const theme = createTheme()
 root.render(
 <ThemeProvider theme={theme}>
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+    <AppWithRedux />
+    </Provider>
+ 
+
   </React.StrictMode>
   </ThemeProvider>
 );

@@ -20,7 +20,8 @@ type adItemPropseType = {
   
   
 
-export function AdItemForm(props: adItemPropseType) {
+export const  AdItemForm = React.memo( (props: adItemPropseType) => {
+   console.log('addItemForm')
     const [newTaskTitle, setTaskeTitle] = useState("");
     const [error, setError] = useState<string | null>(null);
     
@@ -43,7 +44,9 @@ const theme = createTheme({
     };
     
     const onKeyPressHendler = (e: KeyboardEvent<HTMLInputElement>) => {
-      setError(null);
+     if (error !== null){
+        setError(null)
+      };
       if (e.key === "Enter") {
         setError(null);
         props.addTask(newTaskTitle,);
@@ -72,4 +75,4 @@ const theme = createTheme({
      
 
     </div>;
-  }
+  });
