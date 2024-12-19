@@ -1,78 +1,44 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import "../TodoList.css"; // Импорт стилей
 import { error } from "console";
-import IconButton from '@mui/material/Button'
+import IconButton from "@mui/material/Button";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { TextField } from "@mui/material";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { green } from '@mui/material/colors';
-import Stack from '@mui/material/Stack';
-
-
-
-
-
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { green } from "@mui/material/colors";
+import Stack from "@mui/material/Stack";
+import { useAddItemForm } from "./hooks/useAddItemFotm";
 
 type adItemPropseType = {
-    addTask: (title: string, ) => void;
+  addTask: (title: string) => void;
+};
 
-  };
-  
-  
-
-export const  AdItemForm = React.memo( (props: adItemPropseType) => {
-   console.log('addItemForm')
-    const [newTaskTitle, setTaskeTitle] = useState("");
-    const [error, setError] = useState<string | null>(null);
-    
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2", // основной цвет
-    },
-  },
-});
-  
-    const addTask = () => {
-      if (newTaskTitle.trim() !== "") {
-        props.addTask(newTaskTitle,);
-        setTaskeTitle("");
-      } else setError("Field is required");
-    };
-    const onNewTitleHendlerChabger = (e: ChangeEvent<HTMLInputElement>) => {
-      setTaskeTitle(e.currentTarget.value);
-    };
-    
-    const onKeyPressHendler = (e: KeyboardEvent<HTMLInputElement>) => {
-     if (error !== null){
-        setError(null)
-      };
-      if (e.key === "Enter") {
-        setError(null);
-        props.addTask(newTaskTitle,);
-        setTaskeTitle("");
-      }
-    };
-   
-  return  <div>
+export const AdItemForm = React.memo((props: adItemPropseType) => {
+  let {
+    newTaskTitle,
+    error,
+    addTask,
+    onNewTitleHendlerChabger,
+    onKeyPressHendler,
+  } = useAddItemForm(props);
+  return (
+    <div>
       <TextField
-         size="small"
-        variant={"outlined"} 
+        size="small"
+        variant={"outlined"}
         value={newTaskTitle}
         onChange={onNewTitleHendlerChabger}
         onKeyUp={onKeyPressHendler}
         type="text"
-        label = {'Type value'}
+        label={"Type value"}
         error={!!error}
         helperText={error}
       ></TextField>
-       
-       <AddCircleIcon
-  onClick={addTask}
-  sx={{ color: green[500], cursor: 'pointer' }}
-/>
 
-     
-
-    </div>;
-  });
+      <AddCircleIcon
+        onClick={addTask}
+        sx={{ color: green[500], cursor: "pointer" }}
+      />
+    </div>
+  );
+});

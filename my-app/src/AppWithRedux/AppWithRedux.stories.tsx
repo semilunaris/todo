@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import AppWithRedux from './App';
-import { withLogging } from './stories/ReduxStoreWitthLoginDecoratot';
+import AppWithRedux from './AppWithRedux';
+import { withLogging } from '../stories/ReduxStoreWitthLoginDecoratot';
 
 const meta: Meta<typeof AppWithRedux> = {
   title: 'AppWithRedux',

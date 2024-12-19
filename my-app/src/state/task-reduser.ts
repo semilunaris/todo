@@ -1,5 +1,5 @@
 import { title } from "process";
-import { TodoListType, FilterValueType, TasksStateType} from "../App";
+import { TodoListType, FilterValueType, TasksStateType} from "../App/App";
 import { v1 } from 'uuid'
 import { TodoList } from "../Todolist";
 import { AddTodolistActionType, RemoveTodolistActionType } from "./todolists-reduser";
@@ -72,14 +72,12 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
   
 
   case 'CHANGE-TASK-TITLE':{
-    const stateCopy = {...state}
-   let tasks = stateCopy[action.todoListId]
-   let task = tasks.find(t=>t.id === action.taskId)
-   if (task){
-    task.title = action.title
-    
-   }
-   return stateCopy
+ let todolistTasks = state[action.todoListId];
+  state[action. todoListId] = todolistTasks.map(t=>t.id === action.taskId?
+ {...t, title: action.title}:
+ t)   
+   
+   return ({...state})
   }
   
   case 'ADD-TODOLIST': {

@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from './App/App';
 import AppWithReducer from './AppWithReducer';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import AppWithRedux from './AppWithRedux';
+import AppWithRedux from './AppWithRedux/AppWithRedux';
 import { Provider } from 'react-redux';
 import { store } from './state/store';
 

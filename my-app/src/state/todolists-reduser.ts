@@ -1,5 +1,5 @@
 import { title } from "process";
-import { TodoListType, FilterValueType} from "../App";
+import { TodoListType, FilterValueType} from "../App/App";
 import { v1 } from 'uuid'
 import { TodoList } from "../Todolist";
 

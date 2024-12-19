@@ -1,5 +1,5 @@
 
-import { TodoListType, FilterValueType } from '../App'
+import { TodoListType, FilterValueType } from '../App/App'
 import { v1 } from 'uuid'
 import { todolistsReducer } from './todolists-reduser'
 import { ChangeTodolistFilterActionType } from './todolists-reduser'

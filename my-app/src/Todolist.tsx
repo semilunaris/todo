@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, KeyboardEvent, useCallback } from "react";
-import { FilterValueType } from "./App";
+import { FilterValueType } from "./App/App";
 import "./TodoList.css";
 import React from "react";
 import { error } from "console";

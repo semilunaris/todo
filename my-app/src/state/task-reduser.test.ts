@@ -1,5 +1,5 @@
 import { tasksReducer } from "./task-reduser";
-import { TasksStateType } from "../App";
+import { TasksStateType } from "../App/App";
 import { removeTaskAC } from "./task-reduser";
 import { addTaskAC } from "./task-reduser";
 import { changeTaskStatusAC } from "./task-reduser";
