@@ -34,6 +34,14 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { AppRootState } from "../state/store";
 import { useAppWithRedux } from "./hooks/useAppWithRedux";
+import { GetTodolist } from "../todolist-api";
+import { CreateTodolist } from "../todolist-api";
+import { DeleteTodolist } from "../todolist-api";
+import { UpdateTodolist } from "../todolist-api";
+import { CreateTask } from "../todolist-api";
+import { GetTasks } from "../todolist-api";
+import { DeleteTask } from "../todolist-api";
+import { UpdateTask } from "../todolist-api";
 
 export type FilterValueType = "completed" | "all" | "active";
 export type TodoListType = {
@@ -61,6 +69,15 @@ function AppWithRedux() {
 
   return (
     <div className="App">
+     <UpdateTask/>
+     <CreateTask/>
+     <GetTasks/>
+     <DeleteTask/>
+      <CreateTodolist/>
+      <GetTodolist/>
+     <DeleteTodolist/>
+     <UpdateTodolist/>
+   
       <AppBar position="static">
         <Toolbar>
           <IconButton
