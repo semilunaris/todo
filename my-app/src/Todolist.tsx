@@ -1,5 +1,5 @@
-import { useState, ChangeEvent, KeyboardEvent, useCallback } from "react";
-import { FilterValueType } from "./App/App";
+import { useState, useEffect, ChangeEvent, KeyboardEvent, useCallback } from "react";
+import { FilterValueType } from "./state/todolists-reduser";
 import "./TodoList.css";
 import React from "react";
 import { error } from "console";
@@ -9,12 +9,13 @@ import { EditlbleSpan } from "./span/Span";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
+import { TaskStatuses, TaskType } from "./Api/todolistsAPI";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./state/store";
+import { fetchTasksThunk } from "./state/task-reduser";
 
-export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
+
+
 
 type TitlePropsType = {
   id: string;
@@ -27,7 +28,7 @@ type TitlePropsType = {
   removeTask: (id: string, todolistid: string) => void;
   changeTaskStatus: (
     taskId: string,
-    isDone: boolean,
+    status: TaskStatuses,
     todolistid: string
   ) => void;
   changeTaskTitle: (
@@ -40,7 +41,18 @@ type TitlePropsType = {
   removeTodoList: (todolistid: string) => void;
 };
 
+export const useAppDispatch: () => AppDispatch = useDispatch;
+
 export const TodoList = React.memo((props: TitlePropsType) => {
+
+  
+  const dispatch = useAppDispatch();
+
+    useEffect(() => {
+      dispatch(fetchTasksThunk(props.id));
+    }, [dispatch]);
+  
+
   const onAllFilter = useCallback(() => props.changeFilter("all", props.id),[props.changeFilter, props.id]);
   const onActiveFilter = useCallback(() => props.changeFilter("active", props.id),[props.changeFilter,props.id]);
   const onComletedFilter = useCallback(() => props.changeFilter("completed", props.id),[props.changeFilter, props.id ]);
@@ -58,9 +70,9 @@ export const TodoList = React.memo((props: TitlePropsType) => {
 
   let tasksForTodolist = props.task
   if (props.filter === "completed") {
-    tasksForTodolist = props.task.filter((t) => t.isDone);
+    tasksForTodolist = props.task.filter((t) => t.status === TaskStatuses.Completed);
   } else if (props.filter === "active") {
-    tasksForTodolist = props.task.filter((t) => !t.isDone);
+    tasksForTodolist = props.task.filter((t) => t.status === TaskStatuses.New);
   }
 
   return (
@@ -74,7 +86,7 @@ export const TodoList = React.memo((props: TitlePropsType) => {
       </h3>
       <AdItemForm addTask={addTask} />
       <ul className="task-list">
-        {props.task.map(t => 
+        {tasksForTodolist.map(t => 
        <Task
        t={t}
        changeTaskStatus={props.changeTaskStatus}
@@ -123,7 +135,7 @@ type TaskPropsType={
   removeTask: (id: string, todolistid: string) => void;
   changeTaskStatus: (
     taskId: string,
-    isDone: boolean,
+    status: TaskStatuses,
     todolistid: string
   ) => void;
   changeTaskTitle: (
@@ -141,7 +153,8 @@ const Task = React.memo((props: TaskPropsType) => {
     props.removeTask(props.t.id, props.todoListid);
   };
   const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    props.changeTaskStatus(props.t.id, e.currentTarget.checked, props.todoListid);
+    let newStatusValue = e.currentTarget.checked
+    props.changeTaskStatus(props.t.id, newStatusValue? TaskStatuses.Completed : TaskStatuses.New, props.todoListid);
   };
 
   const onChangeTitleHandler = useCallback((newValue: string) => {
@@ -151,12 +164,12 @@ const Task = React.memo((props: TaskPropsType) => {
   return (
     <li
       key={props.t.id}
-      className={`task-item ${props.t.isDone ? "completed" : ""}`}
+      className={`task-item ${props.t.status === TaskStatuses.Completed ? "completed" : ""}`}
     >
       <input
         type="checkbox"
         onChange={onChangeCheckHandler}
-        checked={props.t.isDone}
+        checked={props.t.status === TaskStatuses.Completed}
       />
       <EditlbleSpan title={props.t.title} onChange={onChangeTitleHandler} />
       <IconButton aria-label="delete" onClick={onRemoveHendler}>

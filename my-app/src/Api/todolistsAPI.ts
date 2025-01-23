@@ -1,5 +1,7 @@
 import axios from "axios";
 import { CreateTodolist, GetTasks } from "../todolist-api";
+import { FilterValueType } from "../AppWithRedux/AppWithRedux";
+import { UpdateDomaineTaskModelType } from "../state/task-reduser";
 
 const setting = {
   withCredentials: true,
@@ -27,12 +29,26 @@ type ResponseType<D = {}> = {
   data: D;
 };
 
+export enum TaskStatuses{
+  New = 0,
+  InProgress = 1,
+  Completed = 2,
+  Draft= 3
+}
+
+export enum TodoTaskPriorities{
+  Low = 0,
+  Middle= 1,
+  Hi = 2,
+  Urgently = 3,
+  Later = 4,
+}
+
 export type TaskType = {
   description: string;
   title: string;
-  completed: boolean;
-  status: number;
-  priority: number;
+  status: TaskStatuses;
+  priority: TodoTaskPriorities;
   startDate: string;
   deadline: string;
   id: string;
@@ -44,8 +60,8 @@ export type TaskType = {
 export type UpdateTaskType = {
   title: string;
   description: string;
-  status: number;
-  priority: number;
+  status: TaskStatuses;
+  priority: TodoTaskPriorities;
   startDate: string;
   deadline: string;
 };
@@ -96,7 +112,7 @@ export const todolistsAPI = {
       `todo-lists/${todolistsId}/tasks/${taskId}`
     );
   },
-  updateTask(todolistsId: string, taskId: string,  model: UpdateTaskType) {
+  updateTask(todolistsId: string, taskId: string,  model: UpdateDomaineTaskModelType) {
     return instance.put<ResponseType<{ item: TaskType }>>(
       `todo-lists/${todolistsId}/tasks/${taskId}`,
       model

@@ -1,15 +1,15 @@
 import { todolistId1 } from "../id-utils";
 import { todolistId2 } from "../id-utils";
-import { TodoListType } from "../App";
+import { TodolistDomaineType } from "../../state/todolists-reduser";
 import { useState } from "react";
-import { FilterValueType } from "../App";
+import { FilterValueType } from "../../state/todolists-reduser";
 import { v1 } from "uuid";
 import { string } from "prop-types";
 
 export function useTodoLists(onTodolistRemoved: (id: string)=> void, onTodolistAdded: (id: string)=> void)  {
-  let [todolists, setTodoLists] = useState<Array<TodoListType>>([
-    { id: todolistId1, title: "what to learn", filter: "all" },
-    { id: todolistId2, title: "what to watch", filter: "completed" },
+  let [todolists, setTodoLists] = useState<Array<TodolistDomaineType>>([
+    { id: todolistId1, title: "what to learn", filter: "all" , addedDate: '', order: 0},
+    { id: todolistId2, title: "what to watch", filter: "completed", addedDate: '', order: 0 },
   ]);
 
   let removeTodoList = (todolistid: string) => {
@@ -40,10 +40,12 @@ export function useTodoLists(onTodolistRemoved: (id: string)=> void, onTodolistA
 
   function addTodoList(title: string) {
    let newTodolistId = v1()
-    let todoList: TodoListType = {
+    let todoList: TodolistDomaineType = {
       id: newTodolistId,
       filter: "all",
       title: title,
+      addedDate: '',
+      order: 0
     };
     setTodoLists([todoList, ...todolists]);
     onTodolistAdded(newTodolistId)

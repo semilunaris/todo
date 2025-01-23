@@ -1,12 +1,7 @@
-import { v1 } from "uuid";
-import React, { useState } from "react";
 import "./App.css";
 import { TodoList } from "../Todolist";
-import { TaskType } from "../Todolist";
 import { AdItemForm } from "../input/AdItemForm";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -15,25 +10,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Container } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { Padding } from "@mui/icons-material";
-import { todolistId2 } from "./id-utils";
-import { todolistId1 } from "./id-utils";
 import { useTodoLists } from "./hooks/useTodolists";
 import { useTasks } from "./hooks/useTasks";
+import { TaskStatuses, TaskType } from "../Api/todolistsAPI";
 
-export type FilterValueType = "completed" | "all" | "active";
-export type TodoListType = {
-  title: string;
-  id: string;
-  filter: FilterValueType;
-};
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };
 
 function App() {
   console.log("This is App call");
-
 
   let {
     dataObj,
@@ -42,9 +28,8 @@ function App() {
     changeStatus,
     changeTaskTitle,
     completeRemoveTasksForTodolist,
-    addStateForNewTodoList
+    addStateForNewTodoList,
   } = useTasks();
-
 
   let {
     todolists,
@@ -52,9 +37,7 @@ function App() {
     changeTodoListTitle,
     changeFilter,
     addTodoList,
-  } = useTodoLists(completeRemoveTasksForTodolist, addStateForNewTodoList
-  )
-  
+  } = useTodoLists(completeRemoveTasksForTodolist, addStateForNewTodoList);
 
   return (
     <div className="App">
@@ -84,12 +67,13 @@ function App() {
         <Grid container spacing={3}>
           {" "}
           {todolists.map((tl) => {
+            let allTodolistTasks = dataObj[tl.id]
             let tasksForTodo = dataObj[tl.id] || [];
 
             if (tl.filter === "completed") {
-              tasksForTodo = tasksForTodo.filter((t) => t.isDone);
+              tasksForTodo = allTodolistTasks.filter((t) => t.status === TaskStatuses.New);
             } else if (tl.filter === "active") {
-              tasksForTodo = tasksForTodo.filter((t) => !t.isDone);
+              tasksForTodo = allTodolistTasks.filter((t) => t.status === TaskStatuses.Completed);
             }
 
             return (

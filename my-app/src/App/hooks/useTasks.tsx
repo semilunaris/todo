@@ -3,24 +3,36 @@ import { TasksStateType } from "../App"
 import { todolistId1 } from "../id-utils"
 import { todolistId2 } from "../id-utils"
 import { v1 } from "uuid"
+import { TaskStatuses, TodoTaskPriorities } from "../../Api/todolistsAPI"
 
 
 export function useTasks() {
 
     const [dataObj, setdataObj] = useState<TasksStateType>({
       [todolistId1]: [
-        { id: v1(), title: "js", isDone: true },
-        { id: v1(), title: "Css", isDone: true },
-        { id: v1(), title: "React", isDone: false },
-        { id: v1(), title: "Redax", isDone: false },
-        { id: v1(), title: "Python", isDone: false },
+        { id: v1(), title: "js", status: TaskStatuses.Completed, todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low,
+       },
+        { id: v1(), title: "Css",status: TaskStatuses.Completed, todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low },
+        { id: v1(), title: "React", status: TaskStatuses.New, todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low },
+        { id: v1(), title: "Redax", status: TaskStatuses.New , todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low},
+        { id: v1(), title: "Python", status: TaskStatuses.New , todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low},
       ],
       [todolistId2]: [
-        { id: v1(), title: "Spiderman", isDone: true },
-        { id: v1(), title: "Batman", isDone: true },
-        { id: v1(), title: "Friends", isDone: false },
-        { id: v1(), title: "Power", isDone: false },
-        { id: v1(), title: "Gone with the wind", isDone: false },
+        { id: v1(), title: "Spiderman", status: TaskStatuses.Completed , todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low},
+        { id: v1(), title: "Batman", status: TaskStatuses.Completed , todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low},
+        { id: v1(), title: "Friends", status: TaskStatuses.New, todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low },
+        { id: v1(), title: "Power", status: TaskStatuses.New, todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low },
+        { id: v1(), title: "Gone with the wind", status: TaskStatuses.New , todoListId: todolistId1,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low},
       ],
     })
 
@@ -33,22 +45,23 @@ export function useTasks() {
       }
 
       function addTask(title: string, todolistid: string) {
-        const newTask = { id: v1(), title: title, isDone: false };
+        const newTask = { id: v1(), title: title, status: TaskStatuses.New, todoListId: todolistid,  description: '',  
+          startDate: '', deadline: '', addedDate: '',order: 0, priority: TodoTaskPriorities.Low, };
         setdataObj((prevDataObj) => {
           const data = prevDataObj[todolistid] || [];
           const newTasks = [newTask, ...data];
           return { ...prevDataObj, [todolistid]: newTasks };
         });
       }  
-      function changeStatus(taskId: string, isDone: boolean, todolistid: string) {
-        setdataObj((prevDataObj) => {
-          const tasks = prevDataObj[todolistid] || [];
-          const updatedTasks = tasks.map((t) =>
-            t.id === taskId ? { ...t, isDone } : t
-          );
-          return { ...prevDataObj, [todolistid]: updatedTasks };
-        });
+      function changeStatus(taskId: string, status: TaskStatuses, todolistid: string) {
+     
+          let todolistTasks = dataObj[todolistid]
+          let task = todolistTasks.find(t=>t.id===taskId)
+      if (task){
+        task.status = status;
+        setdataObj({...dataObj })
       }
+     }
     
       function changeTaskTitle(
         taskId: string,

@@ -1,12 +1,10 @@
-import { v1 } from "uuid";
-import React, { useCallback, useReducer, useState } from "react";
+
+import React, {  useEffect } from "react";
 import "../../src/App.css";
 import { TodoList } from "../Todolist";
-import { TaskType } from "../Todolist";
+import { TaskType } from "../Api/todolistsAPI";
 import { AdItemForm } from "../input/AdItemForm";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -15,33 +13,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Container } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { Padding } from "@mui/icons-material";
-import {
-  addTodoListAC,
-  changeTodoListFilterAC,
-  changeTodoListTitleAC,
-  removeTodoListAC,
-  todolistsReducer,
-} from "../state/todolists-reduser";
-import {
-  addTaskAC,
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-  tasksReducer,
-} from "../state/task-reduser";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { AppRootState } from "../state/store";
+import { fetchTodolistsThunk, setTodoListsAC } from "../state/todolists-reduser";
 import { useAppWithRedux } from "./hooks/useAppWithRedux";
-import { GetTodolist } from "../todolist-api";
-import { CreateTodolist } from "../todolist-api";
-import { DeleteTodolist } from "../todolist-api";
-import { UpdateTodolist } from "../todolist-api";
-import { CreateTask } from "../todolist-api";
-import { GetTasks } from "../todolist-api";
-import { DeleteTask } from "../todolist-api";
-import { UpdateTask } from "../todolist-api";
+import { todolistsAPI } from "../Api/todolistsAPI";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../state/store";
+
 
 export type FilterValueType = "completed" | "all" | "active";
 export type TodoListType = {
@@ -52,8 +29,16 @@ export type TodoListType = {
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };
+export const useAppDispatch: () => AppDispatch = useDispatch;
 
 function AppWithRedux() {
+ 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodolistsThunk());
+  }, [dispatch]);
+
   const {
     dataObj,
     todolists,
@@ -64,20 +49,11 @@ function AppWithRedux() {
     changeFilter,
     changeStatus,
     changeTaskTitle,
-    removeTodoList 
+    removeTodoList,
   } = useAppWithRedux();
 
   return (
     <div className="App">
-     <UpdateTask/>
-     <CreateTask/>
-     <GetTasks/>
-     <DeleteTask/>
-      <CreateTodolist/>
-      <GetTodolist/>
-     <DeleteTodolist/>
-     <UpdateTodolist/>
-   
       <AppBar position="static">
         <Toolbar>
           <IconButton
