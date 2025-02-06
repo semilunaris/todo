@@ -63,6 +63,7 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-typescript": "^7.26.0",
     "@chromatic-com/storybook": "^3.2.2",
+    "@storybook/addon-actions": "^8.5.3",
     "@storybook/addon-interactions": "^8.4.3",
     "@storybook/addon-onboarding": "^8.4.3",
     "@storybook/blocks": "^8.4.3",
